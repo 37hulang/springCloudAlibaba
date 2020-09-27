@@ -1,13 +1,16 @@
 server:
-  port: 22222
+  port: 2222
 spring:
   application:
-    name: provider
+    name: Provider
+  profiles:
+    active: dev
   cloud:
     nacos:
       config:
         server-addr: 127.0.0.1:8848
-        namespace: dc46c9ad-d0f3-4e4b-9a3e-606156735782
+        namespace: e6b0b1ee-a114-476b-bb00-039b9a5f9096
         file-extension: yml
-  profiles:
-    active: dev
+      discovery:
+        server-addr: 127.0.0.1:8848
+        namespace: e6b0b1ee-a114-476b-bb00-039b9a5f9096
