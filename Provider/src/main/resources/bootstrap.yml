@@ -11,6 +11,7 @@ spring:
         server-addr: 127.0.0.1:8848
         namespace: e6b0b1ee-a114-476b-bb00-039b9a5f9096
         file-extension: yml
+        shared-dataids: mysql.yml
       discovery:
         server-addr: 127.0.0.1:8848
         namespace: e6b0b1ee-a114-476b-bb00-039b9a5f9096

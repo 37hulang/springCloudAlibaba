@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @Date 2020/9/24 13:39
  **/
 @RequestMapping("/pro")
-@RestController
+@RestController("testProviderController")
 @RefreshScope
 public class ProviderController {
 

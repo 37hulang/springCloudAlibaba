@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.alibaba.dao.ConsumerDao">
+
+    <resultMap type="com.cloud.alibaba.entity.Consumer" id="ConsumerMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="number" column="number" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_list">
+        id, number
+    </sql>
+
+    <select id="query" resultMap="ConsumerMap">
+        SELECT
+        <include refid="Base_Column_list"/>
+        FROM consumer
+        <where>
+            <if test="number != null">
+                AND number = #{number}
+            </if>
+        </where>
+    </select>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ConsumerMap">
+        SELECT
+        <include refid="Base_Column_list"/>
+        FROM consumer
+        WHERE id = #{id}
+    </select>
+
+    <!--查询多个-->
+    <select id="queryByIds" resultMap="ConsumerMap">
+        SELECT
+        <include refid="Base_Column_list"/>
+        FROM consumer
+        WHERE id IN (<foreach collection="list" item="id" separator=",">#{id}</foreach>)
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="ConsumerMap">
+        SELECT
+        <include refid="Base_Column_list"/>
+        FROM consumer
+        <where>
+            <if test="id != null">
+                AND id = #{id}
+            </if>
+            <if test="number != null">
+                AND number = #{number}
+            </if>
+        </where>
+    </select>
+
+    <!--新增列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO consumer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="number != null">
+                number,
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="number != null">
+                #{number},
+            </if>
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        UPDATE consumer
+        <set>
+            <if test="number != null">
+                number = #{number},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        DELETE FROM consumer WHERE id = #{id}
+    </delete>
+
+    <!--通过主键集合删除-->
+    <delete id="deleteByIds">
+        DELETE FROM consumer
+        WHERE id IN (<foreach collection="list" item="id" separator=",">#{id}</foreach>)
+    </delete>
+</mapper>
