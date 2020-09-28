@@ -11,7 +11,34 @@ spring:
         server-addr: 127.0.0.1:8848
         namespace: e6b0b1ee-a114-476b-bb00-039b9a5f9096
         file-extension: yml
-        shared-dataids: mysql.yml
+        shared-dataids: mysql.yml,rocketmq.yml,common.yml
       discovery:
         server-addr: 127.0.0.1:8848
         namespace: e6b0b1ee-a114-476b-bb00-039b9a5f9096
+
+    boot:
+        admin:
+            client:
+                url: http://127.0.0.1:7777
+#feign:
+#    hystrix:
+#        enabled: true
+#    compression:
+#        request:
+#            enabled: true
+#        response:
+#            enabled: true
+#    okhttp:
+#        enabled: true
+#hystrix:
+#    threadpool:
+#        default:
+#            coreSize: 200
+#            maxQueueSize: 1500
+#            queueSizeRejectionThreshold: 1000
+#    command:
+#        default:
+#            execution:
+#                isolation:
+#                    thread:
+#                        timeoutInMilliseconds: 3000

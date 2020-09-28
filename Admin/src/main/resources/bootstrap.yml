@@ -1,0 +1,36 @@
+server:
+  port: 7777
+#开启端点
+management:
+    endpoint:
+        health:
+            show-details: always
+spring:
+    application:
+        name: Admin
+#    security:
+#        user:
+#            name: admin
+#            password: admin
+    boot:
+        admin:
+            ui:
+                title: admin
+    cloud:
+      nacos:
+        discovery:
+          server-addr: 127.0.0.1:8848
+          namespace: e6b0b1ee-a114-476b-bb00-039b9a5f9096
+        config:
+          server-addr: 127.0.0.1:8848
+          shared-dataids: common.yml
+          namespace: e6b0b1ee-a114-476b-bb00-039b9a5f9096
+#    cloud:
+#        nacos:
+#            discovery:
+#                metadata:
+#                    management:
+#                        context-path: /admin/actuator
+#                    user:
+#                        name: ${spring.security.user.name}
+#                        password: ${spring.security.user.password}
