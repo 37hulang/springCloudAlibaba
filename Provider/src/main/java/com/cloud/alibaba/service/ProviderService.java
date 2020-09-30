@@ -105,4 +105,6 @@ public interface ProviderService {
      * @return 成功执行条数
      */
     Integer deleteById(List<Integer> ids);
+
+    void push(Integer num);
 }

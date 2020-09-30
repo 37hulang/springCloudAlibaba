@@ -15,11 +15,14 @@ spring:
       discovery:
         server-addr: 127.0.0.1:8848
         namespace: e6b0b1ee-a114-476b-bb00-039b9a5f9096
-
     boot:
         admin:
             client:
                 url: http://127.0.0.1:7777
+rocketmq:
+  name-server: 172.30.103.66:9876
+  producer:
+    group: spring_trans_topic_group
 #feign:
 #    hystrix:
 #        enabled: true

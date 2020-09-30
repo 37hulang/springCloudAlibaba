@@ -11,6 +11,14 @@ import com.cloud.alibaba.vo.ProviderVO;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.exceptions.TooManyResultsException;
+import org.apache.rocketmq.client.producer.DefaultMQProducer;
+import org.apache.rocketmq.client.producer.SendResult;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
+import org.apache.rocketmq.spring.support.RocketMQHeaders;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -30,6 +38,12 @@ public class ProviderServiceImpl implements ProviderService {
 
     @Resource
     private ProviderDao providerDao;
+
+    @Autowired
+    private RocketMQTemplate rocketMQTemplate;
+
+    @Value("${rocketmq.producer.group}")
+    private String tg;
 
     /**
      * 通过ID查询单条数据
@@ -171,5 +185,18 @@ public class ProviderServiceImpl implements ProviderService {
     public Integer deleteById(List<Integer> ids) {
         List<Integer> collect = ids.stream().distinct().collect(Collectors.toList());
         return this.providerDao.deleteByIds(collect);
+    }
+
+    @Override
+    public void push(Integer num) {
+        try {
+            Message msg = MessageBuilder.withPayload(num).
+                    setHeader(RocketMQHeaders.TRANSACTION_ID, "KEY_" + num).build();
+            SendResult sendResult = rocketMQTemplate.sendMessageInTransaction("spring_trans_topic_group", "rock_topic:all", msg, null);
+            log.info(String.format("------ send Transactional msg body = %s , sendResult=%s %n",
+                    msg.getPayload(), sendResult.getSendStatus()));
+        } catch (Exception e) {
+            log.error("error", e);
+        }
     }
 }
